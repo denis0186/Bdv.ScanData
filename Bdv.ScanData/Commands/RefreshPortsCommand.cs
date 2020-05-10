@@ -1,19 +1,22 @@
-﻿using Bdv.ScanData.ViewModel;
+﻿using Bdv.ScanData.Services;
+using Bdv.ScanData.ViewModel;
 using System;
-using System.IO.Ports;
 using System.Windows.Input;
+using Theraot.Collections;
 
 namespace Bdv.ScanData.Commands
 {
     public class RefreshPortsCommand : ICommand
     {
         private readonly ScanDataSettingsViewModel viewModel;
+        private readonly IScanService scanService;
 
         public event EventHandler CanExecuteChanged;
 
-        public RefreshPortsCommand(ScanDataSettingsViewModel viewModel)
+        public RefreshPortsCommand(ScanDataSettingsViewModel viewModel, IScanService scanService)
         {
             this.viewModel = viewModel;
+            this.scanService = scanService;
         }
 
         public bool CanExecute(object parameter)
@@ -24,10 +27,7 @@ namespace Bdv.ScanData.Commands
         public void Execute(object parameter)
         {
             viewModel.Ports.Clear();
-            foreach (var port in SerialPort.GetPortNames())
-            {
-                viewModel.Ports.Add(port);
-            }
+            viewModel.Ports.AddRange(scanService.GetScanPorts());
         }
     }
 }

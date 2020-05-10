@@ -1,19 +1,19 @@
 ﻿using Bdv.ScanData.Services;
 using Bdv.ScanData.ViewModel;
 using System;
+using System.Linq;
 using System.Windows.Input;
-using Theraot.Collections;
 
 namespace Bdv.ScanData.Commands
 {
-    public class RefreshOpenedWindowsCommand : ICommand
+    public class TestParametersCommand : ICommand
     {
         private readonly ScanDataSettingsViewModel viewModel;
         private readonly IWindowService windowService;
 
         public event EventHandler CanExecuteChanged;
 
-        public RefreshOpenedWindowsCommand(ScanDataSettingsViewModel viewModel, IWindowService windowService)
+        public TestParametersCommand(ScanDataSettingsViewModel viewModel, IWindowService windowService)
         {
             this.viewModel = viewModel;
             this.windowService = windowService;
@@ -26,8 +26,10 @@ namespace Bdv.ScanData.Commands
 
         public void Execute(object parameter)
         {
-            viewModel.OpenedWindows.Clear();
-            viewModel.OpenedWindows.AddRange(windowService.GetWindows());
+            foreach (var item in viewModel.DataParameters.Where(x => !string.IsNullOrEmpty(x.Value)))
+            {
+                windowService.SetText(viewModel.Model.DataWindowHeader, item.EditControl.Class, item.EditControl.Index, item.Value);
+            }
         }
     }
 }

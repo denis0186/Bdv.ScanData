@@ -1,34 +1,10 @@
-﻿using System.ComponentModel;
-
-namespace Bdv.ScanData.ViewModel
+﻿namespace Bdv.ScanData.ViewModel
 {
-    public class EditControlViewModel : INotifyPropertyChanged
+    public class EditControlViewModel
     {
-        private int number;
-        private string name;
+        public int Index { get; set; }
+        public string Class { get; set; }
 
-        public int Number
-        {
-            get => number; 
-            set
-            {
-                if (number == value) return;
-                number = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Number)));
-            }
-        }
-
-        public string Name
-        {
-            get => name;
-            set
-            {
-                if (name == value) return;
-                name = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Name)));
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        public string DisplayName => $"{Class}: {Index:D2}";
     }
 }

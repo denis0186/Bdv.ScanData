@@ -1,4 +1,6 @@
-﻿using Bdv.ScanData.ViewModel;
+﻿using Bdv.ScanData.Services.Impl;
+using Bdv.ScanData.ViewModel;
+using NLog;
 using System.Windows;
 
 namespace Bdv.ScanData
@@ -11,7 +13,7 @@ namespace Bdv.ScanData
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ScanDataSettingsViewModel(new Model.ScanDataSettings());
+            DataContext = new ScanDataSettingsViewModel(new Model.ScanDataSettings(), new User32WindowService(LogManager.GetCurrentClassLogger()), new SerialPortScanService());
         }
     }
 }

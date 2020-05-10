@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Bdv.ScanData.Model
 {
-    public class ScanDataSettings
+    public class ScanDataSettings : INotifyPropertyChanged
     {
         public string Port { get; set; }
         public string Service1CUri { get; set; }
         public string DataWindowHeader { get; set; }
-        public List<string> DataParameters { get; set; } = new List<string>();
+        public List<DataParameter> DataParameters { get; set; } = new List<DataParameter>();
+#pragma warning disable 67
+        public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning disable 67
     }
 }

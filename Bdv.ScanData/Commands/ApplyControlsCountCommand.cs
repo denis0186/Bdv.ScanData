@@ -22,15 +22,15 @@ namespace Bdv.ScanData.Commands
 
         public void Execute(object parameter)
         {
-            var count = viewModel.EditControls.Count;
+            var count = viewModel.DataParameters.Count;
             for(var i = count - 1; i >= viewModel.ParametersCount; i--)
             {
-                viewModel.EditControls.RemoveAt(i);
+                viewModel.DataParameters.RemoveAt(i);
             }
 
             for (var i = count; i < viewModel.ParametersCount; i++)
             {
-                viewModel.EditControls.Add(new EditControlViewModel { Number = i + 1 });
+                viewModel.DataParameters.Add(new DataParameterViewModel { Number = i + 1 });
             }
         }
     }
