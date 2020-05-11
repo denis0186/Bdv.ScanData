@@ -14,6 +14,8 @@ namespace Bdv.ScanData.DI
 
             Bind<ScanDataSettingsViewModel>().ToSelf();
             Bind<IScanService>().To<SerialPortScanService>().InSingletonScope();
+            Bind<IWorkerService>().To<WorkerService>().InSingletonScope();
+            Bind<IService1C>().To<HttpService1C>();
             Bind<IWindowService>().To<User32WindowService>();
             Bind<IModelRepository>().To<JsonFileModelRepository>();
             Bind<ILogger>().ToConstant(LogManager.GetCurrentClassLogger());

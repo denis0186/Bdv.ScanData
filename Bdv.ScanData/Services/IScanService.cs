@@ -8,7 +8,7 @@ namespace Bdv.ScanData.Services
     {
         event Action<string> DataCaptured;
         IEnumerable<string> GetScanPorts();
-        void StartScan(ScanDataSettings scanDataSettings);
+        bool StartScan(string port);
         void StopScan();
     }
 }

@@ -26,9 +26,19 @@ namespace Bdv.ScanData.Commands
 
         public void Execute(object parameter)
         {
-            foreach (var item in viewModel.DataParameters.Where(x => !string.IsNullOrEmpty(x.Value)))
+            if (parameter.Equals("write"))
             {
-                windowService.SetText(viewModel.Model.DataWindowHeader, item.EditControl.Class, item.EditControl.Index, item.Value);
+                foreach (var item in viewModel.DataParameters.Where(x => !string.IsNullOrEmpty(x.Value)))
+                {
+                    windowService.SetText(viewModel.Model.DataWindowHeader, item.EditControl.Class, item.EditControl.Index, item.Value);
+                }
+            }
+            if (parameter.Equals("read"))
+            {
+                foreach (var item in viewModel.DataParameters)
+                {
+                    item.Value = windowService.GetText(viewModel.Model.DataWindowHeader, item.EditControl.Class, item.EditControl.Index);
+                }
             }
         }
     }

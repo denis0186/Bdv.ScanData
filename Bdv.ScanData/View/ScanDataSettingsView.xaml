@@ -38,7 +38,7 @@
 
         <ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding Ports}" SelectedValue="{Binding Model.Port}" Width="100" HorizontalAlignment="Left"
                   IsTextSearchEnabled="True" IsEditable="True"/>
-        <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" Text="{Binding Model.Service1CUri}" />
+        <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="6" Text="{Binding Model.Service1CUri}" />
         <ComboBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" ItemsSource="{Binding OpenedWindows}" SelectedValue="{Binding Model.DataWindowHeader}"
                   IsTextSearchEnabled="True" IsEditable="True" />
         <TextBox Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="4" Text="{Binding ParametersCount}" />
@@ -55,9 +55,6 @@
         <Button Grid.Row="0" Grid.Column="4" ToolTip="Обновить список портов" Command="{Binding RefreshPortsCommand}">
             Обновить
         </Button>
-        <Button Grid.Row="2" Grid.Column="7" ToolTip="Тестовый запрос" Command="{Binding TestService1CCommand}">
-            Тест
-        </Button>
         <Button Grid.Row="4" Grid.Column="7" ToolTip="Обновить список открытых окон" Command="{Binding RefreshOpenedWindowsCommand}">
             Обновить
         </Button>
@@ -66,16 +63,16 @@
         </Button>
 
         <StackPanel Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="8" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button ToolTip="Запись значений параметров в поля формы" Command="{Binding TestParametersCommand}">
+            <Button ToolTip="Запись значений параметров в поля формы" Command="{Binding TestParametersCommand}" CommandParameter="write">
                 Тест (запись)
             </Button>
-            <Button ToolTip="Чтение значений полей формы" Command="{Binding TestParametersCommand}" Margin="10,0,0,0">
+            <Button ToolTip="Чтение значений полей формы" Command="{Binding TestParametersCommand}" CommandParameter="read" Margin="10,0,0,0">
                 Тест (чтение)
             </Button>
-            <Button ToolTip="Показать текущие настройки программы" Command="{Binding LoadSettingsCommand}" Margin="10,0,0,0">
+            <Button ToolTip="Показать текущие настройки программы" Command="{Binding LoadScanSettingsCommand}" Margin="10,0,0,0">
                 Загрузить текущие настройки
             </Button>
-            <Button ToolTip="Сохранить и применить настройки программы" Command="{Binding ApplySettingsCommand}" Margin="10,0,0,0">
+            <Button ToolTip="Сохранить и применить настройки программы" Command="{Binding ApplyScanSettingsCommand}" Margin="10,0,0,0">
                 Применить настройки
             </Button>
         </StackPanel>

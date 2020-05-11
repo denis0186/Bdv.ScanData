@@ -104,11 +104,15 @@
     <Compile Include="DI\IoCModule.cs" />
     <Compile Include="Model\DataParameter.cs" />
     <Compile Include="Services\IModelRepository.cs" />
+    <Compile Include="Services\Impl\HttpService1C.cs" />
     <Compile Include="Services\Impl\JsonFileModelRepository.cs" />
     <Compile Include="Services\Impl\SerialPortScanService.cs" />
     <Compile Include="Services\Impl\User32WindowService.cs" />
+    <Compile Include="Services\Impl\WorkerService.cs" />
     <Compile Include="Services\IScanService.cs" />
+    <Compile Include="Services\IService1C.cs" />
     <Compile Include="Services\IWindowService.cs" />
+    <Compile Include="Services\IWorkerService.cs" />
     <Compile Include="ViewModel\Locator.cs" />
     <Compile Include="ViewModel\DataParameterViewModel.cs" />
     <Compile Include="ViewModel\EditControlViewModel.cs" />

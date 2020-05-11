@@ -1,5 +1,4 @@
-﻿using Bdv.ScanData.Model;
-using NLog;
+﻿using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
@@ -36,11 +35,11 @@ namespace Bdv.ScanData.Services.Impl
             return SerialPort.GetPortNames();
         }
 
-        public void StartScan(ScanDataSettings scanDataSettings)
+        public bool StartScan(string port)
         {
             StopScan();
 
-            serialPort.PortName = scanDataSettings.Port;
+            serialPort.PortName = port;
             serialPort.BaudRate = serialPortSettings.SerialPortBaudRate;
             serialPort.Parity = serialPortSettings.SerialPortParity;
             serialPort.DataBits = serialPortSettings.SerialPortDataBits;
@@ -51,9 +50,12 @@ namespace Bdv.ScanData.Services.Impl
             }
             catch (Exception e)
             {
-                logger.Error(e, $@"Ошибка при открытии COM порта '{scanDataSettings.Port}', BaudRate = '{serialPortSettings.SerialPortBaudRate}', 
+                logger.Error(e, $@"Ошибка при открытии COM порта '{port}', BaudRate = '{serialPortSettings.SerialPortBaudRate}', 
                         Parity = '{serialPortSettings.SerialPortParity}', DataBits = '{serialPortSettings.SerialPortDataBits}'");
+                return false;
             }
+
+            return true;
         }
 
         public void StopScan()

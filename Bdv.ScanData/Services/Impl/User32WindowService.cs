@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Vanara.PInvoke;
 using static Vanara.PInvoke.User32;
@@ -47,6 +48,18 @@ namespace Bdv.ScanData.Services.Impl
 
         private string GetText(HWND hwnd, string windowTitle)
         {
+            //try
+            //{
+            //    var length = SendMessage(hwnd, (uint)WindowMessage.WM_GETTEXTLENGTH).ToInt32();
+            //    var sb = new StringBuilder(length + 1);
+            //    SendMessage(hwnd, (int)WindowMessage.WM_GETTEXT, sb.Capacity, sb);
+            //    return sb.ToString();
+            //}
+            //catch (Exception e)
+            //{
+            //    return string.Empty;
+            //}
+
             var length = GetWindowTextLength(hwnd);
             if (length > 0)
             {
@@ -64,33 +77,45 @@ namespace Bdv.ScanData.Services.Impl
             return string.Empty;
         }
 
+        private IEnumerable<HWND> GetChildControls(HWND pHwnd, string controlClass)
+        {
+            var result = new List<HWND>();
+            var cHwnd = FindWindowEx(pHwnd, HWND.NULL, null, null);
+            while (!cHwnd.IsNull)
+            {
+                var sb = new StringBuilder(10);
+                GetClassName(cHwnd, sb, sb.Capacity);
+                if (sb.ToString().Equals(controlClass, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    result.Add(cHwnd);
+                }
+                result.AddRange(GetChildControls(cHwnd, controlClass));
+                cHwnd = FindWindowEx(pHwnd, cHwnd, null, null);
+            }
+            return result;
+        }
+
         public IEnumerable<string> GetControls(string windowTitle, string controlClass)
         {
             var pHwnd = FindWindow(null, windowTitle);
-            var cHwnd = FindWindowEx(pHwnd, HWND.NULL, controlClass, null);
-            while (!cHwnd.IsNull)
+            foreach (var cHwnd in GetChildControls(pHwnd, controlClass))
             {
                 yield return GetText(cHwnd, windowTitle);
-                cHwnd = FindWindowEx(pHwnd, cHwnd, controlClass, null);
             }
         }
 
         private HWND GetControl(string windowTitle, string controlClass, int controlIndex)
         {
             var pHwnd = FindWindow(null, windowTitle);
-            var cHwnd = FindWindowEx(pHwnd, HWND.NULL, controlClass, null);
-            var i = 0;
-            while (!cHwnd.IsNull && i < controlIndex)
-            {
-                cHwnd = FindWindowEx(pHwnd, cHwnd, controlClass, null);
-            }
-            if (i != controlIndex)
+            var childs = GetChildControls(pHwnd, controlClass).ToList();
+
+            if (childs.Count < (controlIndex + 1))
             {
                 logger.Debug($"Не найдено поле класса = '{controlClass}', индекс = '{controlIndex}', заголовок окна = '{windowTitle}'");
                 return HWND.NULL;
             }
 
-            return cHwnd;
+            return childs[controlIndex];
         }
 
         public void SetText(string windowTitle, string controlClass, int controlIndex, string text)

@@ -25,8 +25,8 @@ namespace Bdv.ScanData.Services.Impl
             return new ScanDataSettings
             {
                 DataWindowHeader = "Sample window title",
-                Port = "COM 1",
-                Service1CUri = "http://172.16.255.32/",
+                Port = "",
+                Service1CUri = "http://172.16.255.32/?GetProbeParams~^",
                 DataParameters = new System.Collections.Generic.List<DataParameter>
                 {
                     new DataParameter {Class = "EDIT", Index = 0, Number = 1},

@@ -10,13 +10,14 @@ namespace Bdv.ScanData.ViewModel
     public class ScanDataSettingsViewModel : INotifyPropertyChanged
     {
         private ICommand refreshPortsCommand;
-        private ICommand testService1CCommand;
         private ICommand refreshOpenedWindowsCommand;
         private ICommand applyControlsCountCommand;
         private ICommand fillWindowControlsCommand;
         private readonly IWindowService windowService;
         private readonly IScanService scanService;
         private readonly IModelRepository modelRepository;
+        private readonly IWorkerService workerService;
+        private ICommand applyScanSettingsCommand;
         private ICommand loadScanSettingsCommand;
         private ICommand testParametersCommand;
 
@@ -29,18 +30,19 @@ namespace Bdv.ScanData.ViewModel
         public int ParametersCount { get; set; }
 
         public ICommand RefreshPortsCommand => refreshPortsCommand ?? (refreshPortsCommand = new RefreshPortsCommand(this, scanService));
-        public ICommand TestService1CCommand => testService1CCommand;
         public ICommand RefreshOpenedWindowsCommand => refreshOpenedWindowsCommand ?? (refreshOpenedWindowsCommand = new RefreshOpenedWindowsCommand(this, windowService));
         public ICommand ApplyControlsCountCommand => applyControlsCountCommand ?? (applyControlsCountCommand = new ApplyControlsCountCommand(this));
         public ICommand FillWindowControlsCommand => fillWindowControlsCommand ?? (fillWindowControlsCommand = new FIllWindowControlsCommand(this, windowService));
         public ICommand TestParametersCommand => testParametersCommand ?? (testParametersCommand = new TestParametersCommand(this, windowService));
         public ICommand LoadScanSettingsCommand => loadScanSettingsCommand ?? (loadScanSettingsCommand = new LoadScanSettingsCommand(this, modelRepository));
+        public ICommand ApplyScanSettingsCommand => applyScanSettingsCommand ?? (applyScanSettingsCommand = new ApplyScanSettingsCommand(this, modelRepository, workerService));
 
-        public ScanDataSettingsViewModel(IWindowService windowService, IScanService scanService, IModelRepository modelRepository)
+        public ScanDataSettingsViewModel(IWindowService windowService, IScanService scanService, IModelRepository modelRepository, IWorkerService workerService)
         {
             this.windowService = windowService;
             this.scanService = scanService;
             this.modelRepository = modelRepository;
+            this.workerService = workerService;
             PropertyChanged += ScanDataSettingsViewModelPropertyChanged;
             LoadScanSettingsCommand.Execute(null);
         }

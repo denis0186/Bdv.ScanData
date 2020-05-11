@@ -40,7 +40,7 @@ namespace Bdv.ScanData.Commands
             viewModel.OpenedWindows.Add(model.DataWindowHeader);
             viewModel.Ports.Add(model.Port);
             
-            ScanDataSettingsViewModel.SelectedWindowControls.AddRange(model.DataParameters.Select(x => new EditControlViewModel { Class = x.Class, Index = x.Index }));
+            ScanDataSettingsViewModel.SelectedWindowControls.AddRange(model.DataParameters.Where(x => x.Index >= 0).Select(x => new EditControlViewModel { Class = x.Class, Index = x.Index }));
 
             foreach (var item in model.DataParameters.OrderBy(x => x.Number))
             {
