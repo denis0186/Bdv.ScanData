@@ -16,9 +16,11 @@ namespace Bdv.ScanData.ViewModel
         private ICommand fillWindowControlsCommand;
         private readonly IWindowService windowService;
         private readonly IScanService scanService;
+        private readonly IModelRepository modelRepository;
+        private ICommand loadScanSettingsCommand;
         private ICommand testParametersCommand;
 
-        public ScanDataSettings Model { get; }
+        public ScanDataSettings Model { get; set; }
 
         public ObservableCollection<string> OpenedWindows { get; } = new ObservableCollection<string>();
         public ObservableCollection<DataParameterViewModel> DataParameters { get; } = new ObservableCollection<DataParameterViewModel>();
@@ -32,15 +34,24 @@ namespace Bdv.ScanData.ViewModel
         public ICommand ApplyControlsCountCommand => applyControlsCountCommand ?? (applyControlsCountCommand = new ApplyControlsCountCommand(this));
         public ICommand FillWindowControlsCommand => fillWindowControlsCommand ?? (fillWindowControlsCommand = new FIllWindowControlsCommand(this, windowService));
         public ICommand TestParametersCommand => testParametersCommand ?? (testParametersCommand = new TestParametersCommand(this, windowService));
-        public ScanDataSettingsViewModel(ScanDataSettings model, IWindowService windowService, IScanService scanService)
+        public ICommand LoadScanSettingsCommand => loadScanSettingsCommand ?? (loadScanSettingsCommand = new LoadScanSettingsCommand(this, modelRepository));
+
+        public ScanDataSettingsViewModel(IWindowService windowService, IScanService scanService, IModelRepository modelRepository)
         {
-            Model = model;
             this.windowService = windowService;
             this.scanService = scanService;
-            Model.PropertyChanged += ModelPropertyChanged;
-            RefreshPortsCommand.Execute(null);
-            RefreshOpenedWindowsCommand.Execute(null);
-            ParametersCount = model.DataParameters.Count;
+            this.modelRepository = modelRepository;
+            PropertyChanged += ScanDataSettingsViewModelPropertyChanged;
+            LoadScanSettingsCommand.Execute(null);
+        }
+
+        private void ScanDataSettingsViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Model))
+            {
+                Model.PropertyChanged -= ModelPropertyChanged;
+                Model.PropertyChanged += ModelPropertyChanged;
+            }
         }
 
         private void ModelPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -50,7 +61,8 @@ namespace Bdv.ScanData.ViewModel
                 FillWindowControlsCommand.Execute(null);
             }
         }
-
+#pragma warning disable 67
         public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning disable 67
     }
 }

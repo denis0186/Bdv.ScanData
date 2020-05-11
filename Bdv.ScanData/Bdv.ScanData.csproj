@@ -93,19 +93,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppSettings.cs" />
     <Compile Include="Commands\ApplyControlsCountCommand.cs" />
+    <Compile Include="Commands\ApplyScanSettingsCommand.cs" />
     <Compile Include="Commands\FIllWindowControlsCommand.cs" />
+    <Compile Include="Commands\LoadScanSettingsCommand.cs" />
     <Compile Include="Commands\RefreshOpenedWindowsCommand.cs" />
     <Compile Include="Commands\RefreshPortsCommand.cs" />
     <Compile Include="Commands\TestParametersCommand.cs" />
+    <Compile Include="DI\IoCModule.cs" />
     <Compile Include="Model\DataParameter.cs" />
+    <Compile Include="Services\IModelRepository.cs" />
+    <Compile Include="Services\Impl\JsonFileModelRepository.cs" />
     <Compile Include="Services\Impl\SerialPortScanService.cs" />
     <Compile Include="Services\Impl\User32WindowService.cs" />
     <Compile Include="Services\IScanService.cs" />
     <Compile Include="Services\IWindowService.cs" />
+    <Compile Include="ViewModel\Locator.cs" />
     <Compile Include="ViewModel\DataParameterViewModel.cs" />
     <Compile Include="ViewModel\EditControlViewModel.cs" />
     <Compile Include="ViewModel\ScanDataSettingsViewModel.cs" />
+    <Compile Include="View\ScanDataSettingsView.xaml.cs">
+      <DependentUpon>ScanDataSettingsView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -118,6 +128,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\ScanDataSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ScanDataSettings.cs" />

@@ -10,9 +10,9 @@ namespace Bdv.ScanData.Commands
         private readonly ScanDataSettingsViewModel viewModel;
         private readonly IWindowService windowService;
         private string[] controlClasses = new[] { "EDIT" };
-
+#pragma warning disable 67
         public event EventHandler CanExecuteChanged;
-
+#pragma warning disable 67
         public FIllWindowControlsCommand(ScanDataSettingsViewModel viewModel, IWindowService windowService)
         {
             this.viewModel = viewModel;

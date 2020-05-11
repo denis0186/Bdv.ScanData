@@ -13,7 +13,6 @@ namespace Bdv.ScanData
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new ScanDataSettingsViewModel(new Model.ScanDataSettings(), new User32WindowService(LogManager.GetCurrentClassLogger()), new SerialPortScanService());
         }
     }
 }

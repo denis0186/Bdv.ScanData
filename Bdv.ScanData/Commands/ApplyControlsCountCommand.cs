@@ -7,9 +7,9 @@ namespace Bdv.ScanData.Commands
     public class ApplyControlsCountCommand : ICommand
     {
         private readonly ScanDataSettingsViewModel viewModel;
-
+#pragma warning disable 67
         public event EventHandler CanExecuteChanged;
-
+#pragma warning disable 67
         public ApplyControlsCountCommand(ScanDataSettingsViewModel viewModel)
         {
             this.viewModel = viewModel;

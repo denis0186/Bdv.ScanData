@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bdv.ScanData.DI;
+using Ninject;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;

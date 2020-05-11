@@ -10,9 +10,9 @@ namespace Bdv.ScanData.Commands
     {
         private readonly ScanDataSettingsViewModel viewModel;
         private readonly IScanService scanService;
-
+#pragma warning disable 67
         public event EventHandler CanExecuteChanged;
-
+#pragma warning disable 67
         public RefreshPortsCommand(ScanDataSettingsViewModel viewModel, IScanService scanService)
         {
             this.viewModel = viewModel;

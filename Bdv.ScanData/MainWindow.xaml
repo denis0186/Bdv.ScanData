@@ -3,79 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Bdv.ScanData"
+        xmlns:view="clr-namespace:Bdv.ScanData.View" 
+        xmlns:viewmodel="clr-namespace:Bdv.ScanData.ViewModel"
         mc:Ignorable="d"
-        xmlns:vm="clr-namespace:Bdv.ScanData.ViewModel"
-        Title="MainWindow" Height="447.721" Width="665.57" Padding="10">
+        Title="Настройки SCANDATA" Height="447.721" Width="665.57" Padding="10">
+    <Window.Resources>
+        <viewmodel:Locator x:Key="Locator"/>
+    </Window.Resources>
     <Border Padding="10">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition />
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition />
-                <RowDefinition Height="10"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0">Порт сканера:</Label>
-            <Label Grid.Row="2" Grid.Column="0">Адрес сервиса 1С:</Label>
-            <Label Grid.Row="4" Grid.Column="0">Заголовок окна:</Label>
-            <Label Grid.Row="6" Grid.Column="0">Количество параметров:</Label>
-
-            <ComboBox Grid.Row="0" Grid.Column="2" ItemsSource="{Binding Ports}" SelectedValue="{Binding Model.Port}" Width="100" HorizontalAlignment="Left"/>
-            <TextBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" Text="{Binding Model.Service1CUri}" />
-            <ComboBox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="4" ItemsSource="{Binding OpenedWindows}" SelectedValue="{Binding Model.DataWindowHeader}"
-                  IsTextSearchEnabled="True" IsEditable="True" />
-            <TextBox Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="4" Text="{Binding ParametersCount}" />
-            <DataGrid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="8" ItemsSource="{Binding DataParameters}" AutoGenerateColumns="False" 
-                      CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" CanUserSortColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Width="Auto" Binding="{Binding Number}" IsReadOnly="True"/>
-                    <DataGridComboBoxColumn Header="Поле" Width="*" DisplayMemberPath="DisplayName" SelectedValuePath="" ItemsSource="{Binding Source={x:Static vm:ScanDataSettingsViewModel.SelectedWindowControls}}" 
-                                            SelectedItemBinding="{Binding EditControl}">
-                    </DataGridComboBoxColumn>
-                    <DataGridTextColumn Header="Значение" Width="*" Binding="{Binding Value}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <Button Grid.Row="0" Grid.Column="4" ToolTip="Обновить список портов" Command="{Binding SelectedWindowControls, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
-                Обновить
-            </Button>
-            <Button Grid.Row="2" Grid.Column="7" ToolTip="Тестовый запрос" Command="{Binding TestService1CCommand}">
-                Тест
-            </Button>
-            <Button Grid.Row="4" Grid.Column="7" ToolTip="Обновить список открытых окон" Command="{Binding RefreshOpenedWindowsCommand}">
-                Обновить
-            </Button>
-            <Button Grid.Row="6" Grid.Column="7" ToolTip="Применить количество, таблица будет перестроена" Command="{Binding ApplyControlsCountCommand}">
-                Применить
-            </Button>
-
-            <StackPanel Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="8" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button ToolTip="Применить количество, таблица будет перестроена" Command="{Binding TestParametersCommand}">
-                    Тест параметров
-                </Button>
-                <Button ToolTip="Применить количество, таблица будет перестроена" Command="{Binding LoadSettingsCommand}" Margin="10,0,0,0">
-                    Загрузить текущие настройки
-                </Button>
-                <Button ToolTip="Применить количество, таблица будет перестроена" Command="{Binding ApplySettingsCommand}" Margin="10,0,0,0">
-                    Применить настройки
-                </Button>
-            </StackPanel>
-        </Grid>
+        <view:ScanDataSettingsView DataContext="{Binding Path=ScanDataSettings, Source={StaticResource Locator}}" />
     </Border>
 </Window>
