@@ -7,7 +7,8 @@
         xmlns:viewmodel="clr-namespace:Bdv.ScanData.ViewModel"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
-        Title="Настройки SCANDATA" Height="447.721" Width="665.57" Padding="10" Closing="Window_Closing" StateChanged="Window_StateChanged" WindowStyle="ToolWindow">
+        Title="Настройки SCANDATA" Height="447.721" Width="665.57" Padding="10" Closing="Window_Closing" StateChanged="Window_StateChanged" WindowStartupLocation="CenterScreen"
+        WindowState="Minimized" Visibility="Hidden" Icon="Assets/barcode.ico" ResizeMode="CanMinimize">
     <Window.Resources>
         <viewmodel:Locator x:Key="Locator"/>
     </Window.Resources>
