@@ -77,6 +77,19 @@ namespace Bdv.ScanData.Services.Impl
             return string.Empty;
         }
 
+        private HWND GetWindow(string windowTitle)
+        {
+            var pHwnd = FindWindow(null, windowTitle);
+
+            if (pHwnd.IsNull)
+            {
+                logger.Debug($"Не найдено окно с заголовком '{windowTitle}'");
+                return HWND.NULL;
+            }
+
+            return pHwnd;
+        }
+
         private IEnumerable<HWND> GetChildControls(HWND pHwnd, string controlClass)
         {
             var result = new List<HWND>();
@@ -95,9 +108,31 @@ namespace Bdv.ScanData.Services.Impl
             return result;
         }
 
+        private HWND GetChildControl(HWND pHwnd, string controlClass, int controlIndex, string windowTitle)
+        {
+            if (pHwnd == null)
+            {
+                return HWND.NULL;
+            }
+
+            var hwnd = GetChildControls(pHwnd, controlClass).ElementAtOrDefault(controlIndex);
+
+            if (hwnd.IsNull)
+            {
+                logger.Debug($"Не найдено поле класса = '{controlClass}', индекс = '{controlIndex}', заголовок окна = '{windowTitle}'");
+                return HWND.NULL;
+            }
+
+            return hwnd;
+        }
+
         public IEnumerable<string> GetControls(string windowTitle, string controlClass)
         {
             var pHwnd = FindWindow(null, windowTitle);
+            if (pHwnd.IsNull)
+            {
+                yield break;
+            }
             foreach (var cHwnd in GetChildControls(pHwnd, controlClass))
             {
                 yield return GetText(cHwnd, windowTitle);
@@ -106,16 +141,28 @@ namespace Bdv.ScanData.Services.Impl
 
         private HWND GetControl(string windowTitle, string controlClass, int controlIndex)
         {
-            var pHwnd = FindWindow(null, windowTitle);
-            var childs = GetChildControls(pHwnd, controlClass).ToList();
+            var pHwnd = GetWindow(windowTitle);
 
-            if (childs.Count < (controlIndex + 1))
+            if (pHwnd.IsNull)
             {
-                logger.Debug($"Не найдено поле класса = '{controlClass}', индекс = '{controlIndex}', заголовок окна = '{windowTitle}'");
                 return HWND.NULL;
             }
 
-            return childs[controlIndex];
+            return GetChildControl(pHwnd, controlClass, controlIndex, windowTitle);
+        }
+
+        private void SetText(HWND hwnd, string controlClass, int controlIndex, string text, string windowTitle)
+        {
+            int i = 0;
+            try
+            {
+                SendMessage(hwnd, (uint)WindowMessage.WM_SETTEXT, ref i, new StringBuilder(text));
+                logger.Debug($"Текст для поля с hwnd = '{hwnd}', класс = '{controlClass}', индекс = '{controlIndex}', заголовок окна = '{windowTitle}' установлен, текст = '{text}'");
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, $"Текст для поля с hwnd = '{hwnd}', класс = '{controlClass}', индекс = '{controlIndex}', заголовок окна = '{windowTitle}' не установлен, текст = '{text}'");
+            }
         }
 
         public void SetText(string windowTitle, string controlClass, int controlIndex, string text)
@@ -125,21 +172,39 @@ namespace Bdv.ScanData.Services.Impl
             {
                 return;
             }
-            int i = 0;
-            try
-            {
-                SendMessage(hwnd, (uint)WindowMessage.WM_SETTEXT, ref i, new StringBuilder(text));
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, $"Текст для поля с hwnd = '{hwnd}', класс = '{controlClass}', индекс = '{controlIndex}', заголовок окна = '{windowTitle}' не установлен, текст = '{text}'");
-            }
+
+            SetText(hwnd, controlClass, controlIndex, text, windowTitle);
         }
 
         public string GetText(string windowTitle, string controlClass, int controlIndex)
         {
             var hwnd = GetControl(windowTitle, controlClass, controlIndex);
             return hwnd.IsNull ? string.Empty : GetText(hwnd, windowTitle);
+        }
+
+        public void SetText(string windowTitle, string[] controlClasses, int[] controlIndexes, string[] texts)
+        {
+            if (controlClasses == null || controlIndexes == null || texts == null || controlClasses.Length != controlIndexes.Length
+                || texts.Length != controlClasses.Length)
+            {
+                logger.Error("Не верные параметры метода SetText");
+                return;
+            }
+            
+            var pHwnd = GetWindow(windowTitle);
+            if (pHwnd.IsNull)
+            {
+                return;
+            }
+
+            for (var i = 0; i < controlClasses.Length; i++)
+            {
+                var hwnd = GetChildControl(pHwnd, controlClasses[i], controlIndexes[i], windowTitle);
+                if (!hwnd.IsNull)
+                {
+                    SetText(hwnd, controlClasses[i], controlIndexes[i], texts[i], windowTitle);
+                }
+            }
         }
     }
 }

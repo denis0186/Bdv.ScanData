@@ -26,6 +26,7 @@ namespace Bdv.ScanData.Services.Impl
             var data = serialPort.ReadExisting();
             if (!string.IsNullOrEmpty(data))
             {
+                logger.Debug($"Получены данные '{data}'");
                 DataCaptured?.Invoke(data);
             }
         }
@@ -38,15 +39,15 @@ namespace Bdv.ScanData.Services.Impl
         public bool StartScan(string port)
         {
             StopScan();
-
-            serialPort.PortName = port;
-            serialPort.BaudRate = serialPortSettings.SerialPortBaudRate;
-            serialPort.Parity = serialPortSettings.SerialPortParity;
-            serialPort.DataBits = serialPortSettings.SerialPortDataBits;
-
+            
             try
             {
+                serialPort.PortName = port;
+                serialPort.BaudRate = serialPortSettings.SerialPortBaudRate;
+                serialPort.Parity = serialPortSettings.SerialPortParity;
+                serialPort.DataBits = serialPortSettings.SerialPortDataBits;
                 serialPort.Open();
+                logger.Debug($"Открыт порт '{port}'");
             }
             catch (Exception e)
             {
@@ -63,6 +64,7 @@ namespace Bdv.ScanData.Services.Impl
             if (serialPort.IsOpen)
             {
                 serialPort.Close();
+                logger.Debug($"Закрыт порт '{serialPort.PortName}'");
             }
         }
     }

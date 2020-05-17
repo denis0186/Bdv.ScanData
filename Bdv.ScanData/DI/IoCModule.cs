@@ -13,12 +13,12 @@ namespace Bdv.ScanData.DI
             var appSettings = new AppSettings();
 
             Bind<ScanDataSettingsViewModel>().ToSelf();
-            Bind<IScanService>().To<SerialPortScanService>().InSingletonScope();
+            Bind<IScanService>().To<TestScanService>().InSingletonScope();
             Bind<IWorkerService>().To<WorkerService>().InSingletonScope();
-            Bind<IService1C>().To<HttpService1C>();
+            Bind<IService1C>().To<TestService1C>();
             Bind<IWindowService>().To<User32WindowService>();
             Bind<IModelRepository>().To<JsonFileModelRepository>();
-            Bind<ILogger>().ToConstant(LogManager.GetCurrentClassLogger());
+            Bind<ILogger>().ToMethod(c => LogManager.GetCurrentClassLogger());
             Bind<ISerialPortSettings>().ToConstant(appSettings);
         }
     }

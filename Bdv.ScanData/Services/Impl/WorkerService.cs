@@ -25,11 +25,11 @@ namespace Bdv.ScanData.Services.Impl
         private void ScanServiceDataCaptured(string data)
         {
             var parameters = service1C.GetParameters(Model.Service1CUri, data).ToList();
-
-            foreach (var dataParameter in Model.DataParameters.Where(x => x.Index >= 0 && x.Number <= parameters.Count).OrderBy(x => x.Number))
-            {
-                windowService.SetText(Model.DataWindowHeader, dataParameter.Class, dataParameter.Index, parameters[dataParameter.Number - 1]);
-            }
+            var dataParameters = Model.DataParameters.Where(x => x.Index >= 0 && x.Number <= parameters.Count).OrderBy(x => x.Number);
+            windowService.SetText(Model.DataWindowHeader,
+                dataParameters.Select(x => x.Class).ToArray(),
+                dataParameters.Select(x => x.Index).ToArray(),
+                parameters.ToArray());
         }
 
         public bool Start()

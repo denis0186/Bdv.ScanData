@@ -5,12 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:Bdv.ScanData.View" 
         xmlns:viewmodel="clr-namespace:Bdv.ScanData.ViewModel"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
-        Title="Настройки SCANDATA" Height="447.721" Width="665.57" Padding="10">
+        Title="Настройки SCANDATA" Height="447.721" Width="665.57" Padding="10" Closing="Window_Closing" StateChanged="Window_StateChanged" WindowStyle="ToolWindow">
     <Window.Resources>
         <viewmodel:Locator x:Key="Locator"/>
     </Window.Resources>
-    <Border Padding="10">
-        <view:ScanDataSettingsView DataContext="{Binding Path=ScanDataSettings, Source={StaticResource Locator}}" />
-    </Border>
+    <Grid>
+        <Border Padding="10">
+            <view:ScanDataSettingsView DataContext="{Binding Path=ScanDataSettings, Source={StaticResource Locator}}" />
+        </Border>
+        <tb:TaskbarIcon IconSource="/Assets/barcode-icon.ico" ToolTipText="SCAN DATA" TrayMouseDoubleClick="TaskbarIcon_TrayMouseDoubleClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Выход" Click="MenuItem_ClickExit"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+    </Grid>
 </Window>

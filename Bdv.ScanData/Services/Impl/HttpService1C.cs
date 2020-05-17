@@ -27,6 +27,7 @@ namespace Bdv.ScanData.Services.Impl
                 using (var stream = new StreamReader(response.GetResponseStream()))
                 {
                     var result = stream.ReadToEnd();
+                    logger.Debug($"Тело ответа на запрос '{request.RequestUri.AbsoluteUri}', '{result}'");
                     return result.Split(new[] { "~^" }, StringSplitOptions.None);
                 }
             }
