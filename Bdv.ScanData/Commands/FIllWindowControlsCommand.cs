@@ -28,6 +28,11 @@ namespace Bdv.ScanData.Commands
         {
             ScanDataSettingsViewModel.SelectedWindowControls.Clear();
 
+            foreach (var item in viewModel.DataParameters)
+            {
+                item.EditControl = null;
+            }
+
             foreach (var controlClass in controlClasses)
             {
                 var index = 0;

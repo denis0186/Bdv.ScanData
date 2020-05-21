@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{21856F70
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bdv.ScanData.Tests", "Bdv.ScanData.Tests\Bdv.ScanData.Tests.csproj", "{DC21A2FD-E7EE-49DC-AA2B-2FE96A72B4B3}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "Bdv.ScanData.Setup", "Bdv.ScanData.Setup\Bdv.ScanData.Setup.wixproj", "{C06CD6D7-187B-4599-919A-ADE5FB51C00D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +33,6 @@ Global
 		{DC21A2FD-E7EE-49DC-AA2B-2FE96A72B4B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DC21A2FD-E7EE-49DC-AA2B-2FE96A72B4B3}.Release|x86.ActiveCfg = Release|Any CPU
 		{DC21A2FD-E7EE-49DC-AA2B-2FE96A72B4B3}.Release|x86.Build.0 = Release|Any CPU
-		{C06CD6D7-187B-4599-919A-ADE5FB51C00D}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{C06CD6D7-187B-4599-919A-ADE5FB51C00D}.Debug|x86.ActiveCfg = Debug|x86
-		{C06CD6D7-187B-4599-919A-ADE5FB51C00D}.Debug|x86.Build.0 = Debug|x86
-		{C06CD6D7-187B-4599-919A-ADE5FB51C00D}.Release|Any CPU.ActiveCfg = Release|x86
-		{C06CD6D7-187B-4599-919A-ADE5FB51C00D}.Release|x86.ActiveCfg = Release|x86
-		{C06CD6D7-187B-4599-919A-ADE5FB51C00D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,14 +1,10 @@
-﻿using Bdv.ScanData.DI;
-using Bdv.ScanData.Services;
+﻿using Bdv.ScanData.Services;
 using Bdv.ScanData.ViewModel;
+using Microsoft.Shell;
 using Ninject;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading;
 using System.Windows;
 
 namespace Bdv.ScanData
@@ -16,19 +12,43 @@ namespace Bdv.ScanData
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : Application, ISingleInstanceApp
     {
+
+        private const string Unique = "BDV-SCAN-DATA-05222020";
+
+        [STAThread]
+        public static void Main()
+        {
+            if (SingleInstance<App>.InitializeAsFirstInstance(Unique))
+            {
+                var application = new App();
+                application.InitializeComponent();
+                application.Run();
+
+                // Allow single instance code to perform cleanup operations
+                SingleInstance<App>.Cleanup();
+            }
+        }
+
+        public bool SignalExternalCommandLineArgs(IList<string> args)
+        {
+            
+            if (this.MainWindow.WindowState == WindowState.Minimized)
+            {
+                this.MainWindow.WindowState = WindowState.Normal;
+            }
+
+            this.MainWindow.Show();
+            this.MainWindow.Activate();
+
+            return true;
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var mutex = new Mutex(true, "Bdv.ScanData", out var onlyOne);
-            if (!onlyOne)
-            {
-                MessageBox.Show("Другой экземпляр приложения уже запущен", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                Shutdown();
-                return;
-            }
-
+            
             var worker = Locator.Kernel.Get<IWorkerService>();
             var logger = Locator.Kernel.Get<ILogger>();
 
