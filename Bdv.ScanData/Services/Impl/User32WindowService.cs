@@ -184,8 +184,7 @@ namespace Bdv.ScanData.Services.Impl
 
         public void SetText(string windowTitle, string[] controlClasses, int[] controlIndexes, string[] texts)
         {
-            if (controlClasses == null || controlIndexes == null || texts == null || controlClasses.Length != controlIndexes.Length
-                || texts.Length != controlClasses.Length)
+            if (controlClasses == null || controlIndexes == null || texts == null || controlClasses.Length != controlIndexes.Length)
             {
                 logger.Error("Не верные параметры метода SetText");
                 return;
@@ -200,7 +199,7 @@ namespace Bdv.ScanData.Services.Impl
             for (var i = 0; i < controlClasses.Length; i++)
             {
                 var hwnd = GetChildControl(pHwnd, controlClasses[i], controlIndexes[i], windowTitle);
-                if (!hwnd.IsNull)
+                if (!hwnd.IsNull && i < texts.Length)
                 {
                     SetText(hwnd, controlClasses[i], controlIndexes[i], texts[i], windowTitle);
                 }

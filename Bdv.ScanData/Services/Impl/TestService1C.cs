@@ -21,7 +21,8 @@ namespace Bdv.ScanData.Services.Impl
             Thread.Sleep(500);
             var response = Enumerable.Range(1, 12).Select(x => new Random(x + DateTime.Now.Millisecond).Next(9999).ToString("D0"));
             logger.Debug($"Получен ответ '{string.Join(",", response)}' от сервиса '{uri}'");
-            return response;
+            
+            return "Комбикорм ПК-6-1~^№ 1433813, 30.06.2020~^Мегамикс~^ККЗ-2020-4846-ГП~^выбой ср/см 20/8 01.07".Split(new[] { "~^" }, StringSplitOptions.None);
         }
     }
 }
