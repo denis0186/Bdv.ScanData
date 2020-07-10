@@ -24,7 +24,7 @@ namespace Bdv.ScanData.Services.Impl
 
         private void ScanServiceDataCaptured(string data)
         {
-            var parameters = service1C.GetParameters(Model.Service1CUri, data).ToList();
+            var parameters = service1C.GetParameters(Model.Service1CUri, "", data).ToList();
             var dataParameters = Model.DataParameters.Where(x => x.Index >= 0 && x.Number <= parameters.Count).OrderBy(x => x.Number);
             windowService.SetText(Model.DataWindowHeader,
                 dataParameters.Select(x => x.Class).ToArray(),

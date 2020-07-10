@@ -12,6 +12,8 @@ namespace Bdv.ScanData
 
         public int SerialPortDataBits { get; } = 8;
 
+        public StopBits SerialPortStopBits { get; } = StopBits.One;
+
         public AppSettings()
         {
             if (int.TryParse(ConfigurationManager.AppSettings["SerialPortBaudRate"], out var res))
@@ -25,6 +27,10 @@ namespace Bdv.ScanData
             if (int.TryParse(ConfigurationManager.AppSettings["SerialPortDataBits"], out res))
             {
                 SerialPortDataBits = res;
+            }
+            if (int.TryParse(ConfigurationManager.AppSettings["SerialPortStopBits"], out res))
+            {
+                SerialPortStopBits = (StopBits)res;
             }
         }
     }

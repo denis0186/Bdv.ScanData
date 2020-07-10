@@ -46,13 +46,14 @@ namespace Bdv.ScanData.Services.Impl
                 serialPort.BaudRate = serialPortSettings.SerialPortBaudRate;
                 serialPort.Parity = serialPortSettings.SerialPortParity;
                 serialPort.DataBits = serialPortSettings.SerialPortDataBits;
+                serialPort.StopBits = serialPort.StopBits;
                 serialPort.Open();
-                logger.Debug($"Открыт порт '{port}'");
+                logger.Debug($"Открыт порт '{port}', BaudRate '{serialPort.BaudRate}', Parity '{serialPort.Parity}', DataBits '{serialPort.DataBits}' StopBits '{serialPort.StopBits}'");
             }
             catch (Exception e)
             {
                 logger.Error(e, $@"Ошибка при открытии COM порта '{port}', BaudRate = '{serialPortSettings.SerialPortBaudRate}', 
-                        Parity = '{serialPortSettings.SerialPortParity}', DataBits = '{serialPortSettings.SerialPortDataBits}'");
+                        Parity = '{serialPortSettings.SerialPortParity}', DataBits = '{serialPortSettings.SerialPortDataBits}', StopBits = '{serialPort.StopBits}'");
                 return false;
             }
 
@@ -74,5 +75,6 @@ namespace Bdv.ScanData.Services.Impl
         int SerialPortBaudRate { get; }
         Parity SerialPortParity { get; }
         int SerialPortDataBits { get; }
+        StopBits SerialPortStopBits { get; }
     }
 }
